@@ -1,0 +1,2 @@
+# autosw
+auto summoner war
