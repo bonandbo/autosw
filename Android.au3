@@ -4,6 +4,7 @@
 #include <Constants.au3>
 #include <String.au3>
 #include <StringConstants.au3>
+#include <Date.au3>
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Android
@@ -1336,9 +1337,29 @@ EndFunc   ;==>_Android_StartActivity
 ; ===============================================================================================================================
 Func _Android_TakeSnapshot($sFilePath)
 	_Android_Shell("mkdir /data/local/tmp")
-	_Android_Shell("screencap -p /data/local/tmp/screenshot.png")
-	_Android_Pull("/data/local/tmp/screenshot.png", $sFilePath)
+    $sPath = "/data/local/tmp/" & _GenerateFileName()
+	_Android_Shell("screencap -p " & $sPath)
+	_Android_Pull($sPath, $sFilePath)
 EndFunc   ;==>_Android_TakeSnapshot
+
+; #FUNCTION# ====================================================================================================================
+; Name ..........: _GenerateFileName
+; Description ...: To generate unique file name of each snapshot
+; Syntax ........: _GenerateFileName()
+; Parameters ....:
+; Return values .: String
+; Author ........: Tran Tuan Diep
+; Modified ......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......: No
+; ===============================================================================================================================
+Func _GenerateFileName()
+   Return ("screenshot_" & @MDAY & @MON & @YEAR & "_" & @HOUR & @MIN & @SEC & "_" & @MSEC & ".png")
+   ;ConsoleWrite($sFileName)
+EndFunc
+
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _Android_Uninstall
