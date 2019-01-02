@@ -1324,12 +1324,12 @@ EndFunc   ;==>_Android_StartActivity
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _Android_TakeSnapshot
-; Description ...:
+; Description ...: Take Snapshot, Name will be generate for an unique file name
 ; Syntax ........: _Android_TakeSnapshot($sFilePath)
 ; Parameters ....: $sFilePath           - A string value.
 ; Return values .: None
 ; Author ........: Kyaw Swar Thwin
-; Modified ......:
+; Modified ......: Tran Tuan Diep
 ; Remarks .......:
 ; Related .......:
 ; Link ..........:
