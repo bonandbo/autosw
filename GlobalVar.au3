@@ -39,7 +39,7 @@ Global $timeDelayPurchase=0, $timeStartPurchase=0
 Global $purchased=False
 Global $gcComboSetKey, $gcConnectStatus, $gclW, $gclH, $gclS, $gcComboMode
 Global $gccComboBuyEnergy, $gclIntervalClick, $gclInterval
-Global $tciStart, $gcbStart, $isStartLoop
+Global $tciStart, $gcbStart, $isStartLoop, $tciShow
 
 ;GUI----------------
 Const $TOOLWIDTH = 200

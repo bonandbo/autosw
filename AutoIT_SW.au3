@@ -41,7 +41,7 @@ Func Start()
 	  GUICtrlSetData($gcbStart,"Start")
 	  TrayItemSetText($tciStart,"Start")
    EndIf
-   AutoClick()
+;~    AutoClick()
    ; Buy energy first
    ; If CheckboxChecked($gccBuyEnergy)=True Then
    ; EnterPurchaseState()
@@ -59,12 +59,8 @@ EndFunc
 
 
 Func Replay($t)
-   If $isStartLoop=True Then
-	  $time=0
-   Else
-	  $time=GUICtrlRead($gclInterval)*1000
-   Endif
-   If $time="" Then $time=0
+   $time=50
+;~    $time=GUICtrlRead($gclInterval)*1000
    $time=Int($time)
    If $t=1 Then
 	  AdlibRegister("AutoClick",$time)
@@ -82,6 +78,10 @@ Func AutoClick()
    If $click=$saveNormal Then
 	  $click=0
 	  $isStartLoop=False
+	  $gclInterval=GUICtrlRead($gclInterval)
+	  $gclInterval=Int($gclInterval)
+	  ConsoleWrite("Now wait until " & $gclInterval & "s" & @CRLF)
+	  Sleep($gclInterval*1000)
    Else
 	  $isStartLoop=True
    Endif
@@ -111,11 +111,12 @@ EndFunc
 
 ;click function
 Func Click($x=0, $y=0)
-$lParam = _WinAPI_MakeLong($x, $y)
-Runwait(@ComSpec & " /q /c " & "adb shell input tap "& $x &" " & $y,@ScriptDir,@SW_HIDE)
-$timeSleep = GUICtrlRead($gclIntervalClick)
-ConsoleWrite("time sleep per click = " & $timeSleep & @CRLF)
-Sleep(Number($timeSleep))
+   $lParam = _WinAPI_MakeLong($x, $y)
+   ConsoleWrite("Start click at " & $x & "- " & $y & @CRLF)
+   Runwait(@ComSpec & " /q /c " & "adb shell input tap "& $x &" " & $y,@ScriptDir,@SW_HIDE)
+   $timeSleep = GUICtrlRead($gclIntervalClick)
+   ConsoleWrite("time sleep per click = " & $timeSleep & @CRLF)
+   Sleep(Number($timeSleep))
 EndFunc
 
 
@@ -153,7 +154,7 @@ EndFunc
 Func SetPosition()
    If GUICtrlRead($gcComboMode)=$STR_COMBO_ADVENTURE Then
    ;------------------- Add pos adventure
-	  $isStartLoop=False
+	  $isStartLoop=True
 	  For $i = 0 To UBound($ADVENTURE)-1
 		 ConsoleWrite("i = " & $i & @CRLF)
 		 If Mod($i, 2) = 0 Then
