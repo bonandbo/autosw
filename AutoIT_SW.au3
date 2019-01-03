@@ -17,8 +17,8 @@ kr.supercreative.epic7.AppActivity
 ;-------------
 Global $struct = DllStructCreate($tagPoint)
 
-;~ _SystemConfig()
-;~ CreateGUI()
+_SystemConfig()
+CreateGUI(200, 250)
 
 While 1
 Sleep(100)
@@ -59,7 +59,11 @@ EndFunc
 
 
 Func Replay($t)
-   $time=GUICtrlRead($gclInterval)
+   If $isStartLoop=True Then
+	  $time=0
+   Else
+	  $time=GUICtrlRead($gclInterval)*1000*60
+   Endif
    If $time="" Then $time=0
    $time=Int($time)
    If $t=1 Then
@@ -73,21 +77,6 @@ Func AutoClick()
    $ratiow = 100
    $ratioh = 100
 ; Check Purchase State
-   If CheckboxChecked($gccBuyEnergyLeaf)=True Then
-	  If $purchased=False AND TimerDiff($timeStartPurchase) > $LOOPPURCHASE Then
-		 EnterPurchaseState()
-	  EndIf
-	  If $purchased=True AND $click=$savePurchase Then
-		 ExitPurchaseState()
-	  EndIf
-   ElseIf CheckboxChecked($gccBuyEnergyGem)=True Then
-	  If $purchased=False AND TimerDiff($timeStartPurchase) > $LOOPPURCHASE Then
-		 EnterPurchaseState()
-	  EndIf
-	  If $purchased=True AND $click=$savePurchase Then
-		 ExitPurchaseState()
-	  EndIf
-   Endif
    ; Auto Click When Purchase Or No
    If $purchased=False Then
 	  If $click=$saveNormal Then
@@ -128,6 +117,9 @@ EndFunc
 Func Click($x=0, $y=0)
 $lParam = _WinAPI_MakeLong($x, $y)
 Runwait(@ComSpec & " /q /c " & "adb shell input tap "& $x &" " & $y,@ScriptDir,@SW_HIDE)
+$timeSleep = GUICtrlRead($gclIntervalClick)
+ConsoleWrite("time sleep per click = " & $timeSleep & @CRLF)
+Sleep(Number($timeSleep))
 EndFunc
 
 
@@ -163,42 +155,27 @@ Func SetPosInMenu($mode)
 EndFunc
 
 Func SetPosition()
-   If GUICtrlRead($gcComboMode)="Adventure" Then
-   ;------------------- Add pos Dungeon
-	  ;For $i = 0 To UBound($
+   If GUICtrlRead($gcComboMode)=$STR_COMBO_ADVENTURE Then
+   ;------------------- Add pos adventure
+	  $isStartLoop=False
 	  For $i = 0 To UBound($ADVENTURE)-1
+		 ConsoleWrite("i = " & $i & @CRLF)
 		 If Mod($i, 2) = 0 Then
 			$posXNormal[($i)/2] = $ADVENTURE[$i]
 		 Else
 			$posYNormal[($i-1)/2] = $ADVENTURE[$i]
 		 EndIf
+		 If $i == UBound($ADVENTURE)-1 Then
+			$isStartLoop=True
+		 EndIf
 	  Next
 	  $saveNormal = UBound($ADVENTURE)/2
-	  ;--------
-;~ 	  If CheckboxChecked($gccRevive)=True Then
-;~ 		 For $i = 0 To UBound($REVIVE)-1
-;~ 			If Mod($i, 2) = 0 Then
-;~ 			   $posXNormal[($i)/2 + $saveNormal] = $REVIVE[$i]
-;~ 			Else
-;~ 			   $posYNormal[($i-1)/2 + $saveNormal] = $REVIVE[$i]
-;~ 			EndIf
-;~ 		 Next
-;~ 		 $saveNormal += UBound($REVIVE)/2
-;~ 	  EndIf
-	  ;---
-;~ 	  If CheckboxChecked($gccBuyEnergy)=True Then
-;~ 		 For $i = 0 To UBound($BUY_ENERGY)-1
-;~ 			If Mod($i, 2) = 0 Then
-;~ 			   $posXPurchase[($i)/2] = $BUY_ENERGY[$i]
-;~ 			Else
-;~ 			   $posYPurchase[($i-1)/2] = $BUY_ENERGY[$i]
-;~ 			EndIf
-;~ 		 Next
-;~ 		 $savePurchase = UBound($BUY_ENERGY)/2
-;~ 	  EndIf
-	  ;---
+   ElseIf GUICtrlRead($gcComboMode)=$STR_COMBO_HUNT Then
+	  $isStartLoop=False
    EndIf
 EndFunc
+
+
 Func GetAppSize()
 ;$appSize = WinGetClientSize($application)
 ;If $appSize=0 Then

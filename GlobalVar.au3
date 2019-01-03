@@ -38,6 +38,39 @@ Global $resolution=""
 Global $timeDelayPurchase=0, $timeStartPurchase=0
 Global $purchased=False
 Global $gcComboSetKey, $gcConnectStatus, $gclW, $gclH, $gclS, $gcComboMode
+Global $gccComboBuyEnergy, $gclIntervalClick, $gclInterval
+Global $tciStart, $gcbStart, $isStartLoop
+
+;GUI----------------
+Const $TOOLWIDTH = 200
+Const $TOOLHEIGHT = 250
+Const $PADDING_EDGE=5
+Const $PADDING_TOP=10
+Const $COMBO_HEIGHT=20
+Const $TEXT_HEIGHT=15
+Const $COMBO_ALIGN=3
+
+;String------------------
+Const $STR_CONNECT_DEVICE="Connect device: Ctrl + Shift + "
+Const $STR_CONNECTION_STATUS="Status:"
+Const $STR_CONNECTION_OFFLINE="Offline"
+Const $STR_CONNECTION_ONLINE="Connected"
+Const $STR_DEVICE_SCREEN="Device size:"
+Const $STR_WIDTH="W:"
+Const $STR_HEIGHT="H:"
+Const $STR_CLICK_WAIT="Click wait(ms):"
+Const $STR_LOOP="Loop(s):"
+Const $STR_BUY_ENERGY="Buy Energy:"
+Const $STR_COMBO_NONE="None"
+Const $STR_COMBO_USE_GEM="Use Gem"
+Const $STR_COMBO_USE_LEAF="Use Leaf"
+Const $STR_COMBO_ADVENTURE="Adventure"
+Const $STR_COMBO_SPIRIT="Spirit"
+Const $STR_COMBO_HUNT="Hunt"
+Const $STR_COMBO_EVENT1="Event 1"
+Const $STR_COMBO_EVENT2="Event 2"
+Const $STR_MODE="Mode:"
+;-----------
 
 Const $LOOPPURCHASE = 2*60*1000 ; 2min
 Const $DELAYPURCHASE = 5*1000 ; 5sec
