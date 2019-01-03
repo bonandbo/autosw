@@ -62,7 +62,7 @@ Func Replay($t)
    If $isStartLoop=True Then
 	  $time=0
    Else
-	  $time=GUICtrlRead($gclInterval)*1000*60
+	  $time=GUICtrlRead($gclInterval)*1000
    Endif
    If $time="" Then $time=0
    $time=Int($time)
@@ -77,24 +77,19 @@ Func AutoClick()
    $ratiow = 100
    $ratioh = 100
 ; Check Purchase State
-   ; Auto Click When Purchase Or No
-   If $purchased=False Then
-	  If $click=$saveNormal Then
-		 $click=0
-	  Endif
-	  $x = $posXNormal[$click]*$ratiow/100
-	  $y = $posYNormal[$click]*$ratioh/100
-	  $click += 1
+
+   ConsoleWrite("Autoclick count = " & $click & @CRLF)
+   If $click=$saveNormal Then
+	  $click=0
+	  $isStartLoop=False
    Else
-	  If TimerDiff($timeDelayPurchase) > $DELAYPURCHASE Then
-		 $x = $posXPurchase[$click]*$ratiow/100
-		 $y = $posYPurchase[$click]*$ratioh/100
-		 $click += 1
-		 $timeDelayPurchase=TimerInit()
-	  Else
-		 Return 0
-	  EndIf
+	  $isStartLoop=True
    Endif
+
+   $x = $posXNormal[$click]*$ratiow/100
+   $y = $posYNormal[$click]*$ratioh/100
+   $click += 1
+
    If $click>0 Then
 	  Click($x,$y)
    Endif
@@ -102,14 +97,15 @@ EndFunc
 
 
 Func EnterPurchaseState()
-$purchased=True
-$click=0
-$timeDelayPurchase=TimerInit()
+	$purchased=True
+	$click=0
+	$timeDelayPurchase=TimerInit()
 EndFunc
+
 Func ExitPurchaseState()
-$purchased=False
-$click=0
-$timeStartPurchase=TimerInit()
+	$purchased=False
+	$click=0
+	$timeStartPurchase=TimerInit()
 EndFunc
 
 
@@ -165,11 +161,9 @@ Func SetPosition()
 		 Else
 			$posYNormal[($i-1)/2] = $ADVENTURE[$i]
 		 EndIf
-		 If $i == UBound($ADVENTURE)-1 Then
-			$isStartLoop=True
-		 EndIf
 	  Next
 	  $saveNormal = UBound($ADVENTURE)/2
+	  ConsoleWrite("save normal = " & $saveNormal & @CRLF)
    ElseIf GUICtrlRead($gcComboMode)=$STR_COMBO_HUNT Then
 	  $isStartLoop=False
    EndIf
