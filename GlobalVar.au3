@@ -79,6 +79,12 @@ Const $SCREEN_SIZE[2] = [1920, 1080]
 Const $MENU[8] = [1600, 965, 416, 641, 1100, 315, 1100, 945]
 Const $EVENT[4] = [1200, 340, 1200, 620]
 
+; Buy----
+Const $BUY_LEAF[2] = [762, 515]
+Const $BUY_GEM[2] = [1150, 515]
+Const $BUY_CANCEL[2] = [765, 770]
+Const $BUY_CONFIRM[2] = [1090, 770]
+
 ; Loop----
 Const $ADVENTURE_READY[2] = [1600, 1000] ;// 2 times
 Const $ADVENTURE[10] = [966, 484, 1750, 1000, 1750, 1000, 1419, 960, 1422, 952]
